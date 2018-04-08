@@ -134,7 +134,7 @@ def do_search():
     """Asks the user what they would like to search for, and returns a
     list of relevant documents, in decreasing order of cosine
     similarity."""
-    query = tokenize(raw_input("Search query >> "))
+    query = tokenize(input("Search query >> "))
     if query == []:
         sys.exit()
     # find document ids containing all query terms.  Works by
