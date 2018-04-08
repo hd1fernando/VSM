@@ -6,6 +6,7 @@ matching the query, in decreasing order of cosine similarity,
 according to the vector space model."""
 
 from collections import defaultdict
+import glob
 import math
 import sys
 
@@ -58,12 +59,14 @@ length = defaultdict(float)
 # terms in the document.
 characters = " .,!#$%^&*();:\n\t\\\"?!{}[]<>"
 
+
 def main():
     initialize_terms_and_postings()
     initialize_document_frequencies()
     initialize_lengths()
     while True:
         do_search()
+
 
 def initialize_terms_and_postings():
     """Reads in each document in document_filenames, splits it into a
@@ -85,6 +88,7 @@ def initialize_terms_and_postings():
                                                    # term in the
                                                    # document
 
+
 def tokenize(document):
     """Returns a list whose elements are the separate terms in
     document.  Something of a hack, but for the simple documents we're
@@ -93,12 +97,14 @@ def tokenize(document):
     terms = document.lower().split()
     return [term.strip(characters) for term in terms]
 
+
 def initialize_document_frequencies():
     """For each term in the dictionary, count the number of documents
     it appears in, and store the value in document_frequncy[term]."""
     global document_frequency
     for term in dictionary:
         document_frequency[term] = len(postings[term])
+
 
 def initialize_lengths():
     """Computes the length for each document."""
@@ -109,6 +115,7 @@ def initialize_lengths():
             l += imp(term,id)**2
         length[id] = math.sqrt(l)
 
+
 def imp(term,id):
     """Returns the importance of term in document id.  If the term
     isn't in the document, then return 0."""
@@ -117,6 +124,7 @@ def imp(term,id):
     else:
         return 0.0
 
+
 def inverse_document_frequency(term):
     """Returns the inverse document frequency of term.  Note that if
     term isn't in the dictionary then it returns 0, by convention."""
@@ -124,6 +132,7 @@ def inverse_document_frequency(term):
         return math.log(N/document_frequency[term],2)
     else:
         return 0.0
+
 
 def do_search():
     """Asks the user what they would like to search for, and returns a
@@ -137,21 +146,23 @@ def do_search():
     relevant_document_ids = intersection(
             [set(postings[term].keys()) for term in query])
     if not relevant_document_ids:
-        print "No documents matched all query terms."
+        print ("No documents matched all query terms.")
     else:
         scores = sorted([(id,similarity(query,id))
                          for id in relevant_document_ids],
                         key=lambda x: x[1],
                         reverse=True)
-        print "Score: filename"
+        print("Score: filename")
         for (id,score) in scores:
-            print str(score)+": "+document_filenames[id]
+            print (str(score),": ",document_filenames[id])
+
 
 def intersection(sets):
     """Returns the intersection of all sets in the list sets. Requires
     that the list sets contains at least one element, otherwise it
     raises an error."""
     return reduce(set.intersection, [s for s in sets])
+
 
 def similarity(query,id):
     """Returns the cosine similarity between query and document id.
@@ -164,6 +175,7 @@ def similarity(query,id):
             similarity += inverse_document_frequency(term)*imp(term,id)
     similarity = similarity / length[id]
     return similarity
+
 
 if __name__ == "__main__":
     main()
