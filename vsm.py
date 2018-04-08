@@ -9,13 +9,20 @@ from collections import defaultdict
 import math
 import sys
 
+#load all documents
+def load_documents(path):
+    files = glob.glob(path)
+    documents_names = dict()
+    id = 0
+    for file in files:
+        documents_names[id] = file
+        id += 1
+    return documents_names
+
 # We use a corpus of four documents.  Each document has an id, and
 # these are the keys in the following dict.  The values are the
 # corresponding filenames.
-document_filenames = {0 : "documents/lotr.txt",
-                      1 : "documents/silmarillion.txt",
-                      2 : "documents/rainbows_end.txt",
-                      3 : "documents/the_hobbit.txt"}
+document_filenames = load_documents("documents/*.txt")
 
 # The size of the corpus
 N = len(document_filenames)
