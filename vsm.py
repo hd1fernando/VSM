@@ -150,7 +150,7 @@ def do_search():
                         reverse=True)
         print("Score: filename")
         for (id,score) in scores:
-            print (str(score),": ",document_filenames[id])
+            print (str(round(score,3)),": ",document_filenames[id])
 
 
 def intersection(sets):
