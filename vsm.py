@@ -60,12 +60,6 @@ length = defaultdict(float)
 characters = " .,!#$%^&*();:\n\t\\\"?!{}[]<>"
 
 
-def main():
-    initialize_terms_and_postings()
-    initialize_document_frequencies()
-    initialize_lengths()
-    while True:
-        do_search()
 
 
 def initialize_terms_and_postings():
@@ -176,6 +170,14 @@ def similarity(query,id):
     similarity = similarity / length[id]
     return similarity
 
+
+
+def main():
+    initialize_terms_and_postings()
+    initialize_document_frequencies()
+    initialize_lengths()
+    while True:
+        do_search()
 
 if __name__ == "__main__":
     main()
