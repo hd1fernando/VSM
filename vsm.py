@@ -9,6 +9,8 @@ from collections import defaultdict
 import glob
 import math
 import sys
+import functools
+
 
 #load all documents
 def load_documents(path):
@@ -140,7 +142,7 @@ def do_search():
     relevant_document_ids = intersection(
             [set(postings[term].keys()) for term in query])
     if not relevant_document_ids:
-        print ("No documents matched all query terms.")
+        print("No documents matched all query terms.")
     else:
         scores = sorted([(id,similarity(query,id))
                          for id in relevant_document_ids],
@@ -155,7 +157,7 @@ def intersection(sets):
     """Returns the intersection of all sets in the list sets. Requires
     that the list sets contains at least one element, otherwise it
     raises an error."""
-    return reduce(set.intersection, [s for s in sets])
+    return functools.reduce(set.intersection, [s for s in sets])
 
 
 def similarity(query,id):
